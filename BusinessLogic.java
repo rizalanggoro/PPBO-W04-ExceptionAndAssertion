@@ -1,21 +1,33 @@
+/*
+  File berfungsi sebagai logika bisnis
+  dari program
+ */
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class BusinessLogic {
+  // konstanta PPN
   public static final int PPN = 10;
+
+  // map untuk menampung produk
   private final Map<String, Product> mapProduct = new HashMap<>();
+
+  // array list untuk menampung daftar riwayat transaksi
   private final ArrayList<Receipt> arrayListReceiptHistory = new ArrayList<>();
 
+  // constructor untuk menginisialisasi produk
   public BusinessLogic() {
     initializeProducts();
   }
 
+  // logika untuk melakukan restock produk
   public void restockProduct(String input) throws Exception {
     String invalidInputMessage = "Masukan yang Anda berikan tidak valid!";
 
-    // validate input
+    // validasi input dari user
     if (input.trim().isEmpty() || !input.contains(","))
       throw new Exception(invalidInputMessage);
 
@@ -23,12 +35,12 @@ public class BusinessLogic {
     if (inputs.length != 2)
       throw new Exception(invalidInputMessage);
 
-    // validate input product name
+    // validasi input: nama produk
     String productName = inputs[0];
     if (productName.trim().isEmpty())
       throw new Exception("Nama produk yang Anda berikan tidak valid!");
 
-    // validate input product amount
+    // validasi input: jumlah produk
     int productAmount;
     try {
       productAmount = Integer.parseInt(inputs[1].trim());
@@ -36,23 +48,24 @@ public class BusinessLogic {
       throw new Exception("Jumlah produk yang Anda berikan tidak valid!");
     }
 
-    // validate product name
+    // validasi nama produk
     String productKey = Utils.Format.key(productName);
     if (!this.mapProduct.containsKey(productKey))
       throw new Exception("Nama produk tidak ditemukan!");
 
-    // increase product stock
+    // menambahkan jumlah stock produk
     int currentProductStock = this.mapProduct.get(productKey).getStock();
     this.mapProduct.get(productKey).setStock(currentProductStock + productAmount);
   }
 
+  // logika untuk melakukan pemesanan produk
   public void createOrder(
       Map<String, Integer> mapOrder,
       String input
   ) throws Exception {
     String invalidInputMessage = "Masukan yang Anda berikan tidak valid!";
 
-    // validate input
+    // validasi input dari user
     if (input.trim().isEmpty() || !input.contains(","))
       throw new Exception(invalidInputMessage);
 
@@ -60,12 +73,12 @@ public class BusinessLogic {
     if (inputs.length != 2)
       throw new Exception(invalidInputMessage);
 
-    // validate input product name
+    // validasi input: nama produk
     String productName = inputs[0];
     if (productName.trim().isEmpty())
       throw new Exception("Nama produk yang Anda berikan tidak valid!");
 
-    // validate input product amount
+    // validasi input: jumlah produk
     int productAmount;
     try {
       productAmount = Integer.parseInt(inputs[1].trim());
@@ -73,19 +86,25 @@ public class BusinessLogic {
       throw new Exception("Jumlah produk yang Anda berikan tidak valid!");
     }
 
-    // validate product name
+    // validasi nama produk
     String productKey = Utils.Format.key(productName);
     if (!this.mapProduct.containsKey(productKey))
       throw new Exception("Nama produk tidak ditemukan!");
 
-    // validate product amount
+    // validasi stock produk
     if (mapOrder.containsKey(productKey)) {
+      // jika produk sudah di order
+
+      // validasi jumlah stock produk
       int totalProductAmount = mapOrder.get(productKey) + productAmount;
       if (this.mapProduct.get(productKey).getStock() < totalProductAmount)
         throw new Exception("Stok produk tidak mencukupi!");
 
       mapOrder.put(productKey, totalProductAmount);
     } else {
+      // jika produk belum di order
+
+      // validasi jumlah stock produk
       if (this.mapProduct.get(productKey).getStock() < productAmount)
         throw new Exception("Stok produk tidak mencukupi!");
 

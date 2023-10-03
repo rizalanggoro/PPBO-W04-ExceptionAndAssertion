@@ -13,6 +13,8 @@ public class PPBO_04_L0122142 {
     while (true) {
       try {
         int option = printMainMenu(scanner, logic);
+
+        // assertion untuk melakukan validasi opsi yang dimasukkan oleh user
         assert (option >= 1 && option <= 4) : "Opsi yang Anda masukkan tidak valid!";
 
         if (option == 1) createNewOrder(scanner, logic);
