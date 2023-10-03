@@ -1,5 +1,6 @@
-// Nama : Rizal Dwi Anggoro
-// NIM  : L0122142
+// Nama   : Rizal Dwi Anggoro
+// NIM    : L0122142
+// GitHub : https://github.com/rizalanggoro/PPBO-W04-ExceptionAndAssertion
 
 import java.util.HashMap;
 import java.util.Map;
